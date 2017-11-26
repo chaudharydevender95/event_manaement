@@ -66,6 +66,7 @@ router.post('/signup',function(req,res,next){
   });
 });
 ```
+![screenshot from 2017-11-26 20-20-15](https://user-images.githubusercontent.com/33262773/33242063-eb83b99e-d2f4-11e7-9e1a-4fa4ae57e396.jpg)
 
 ## config/passport.js
 Further we create passport.js file inside config folder. It contains necessary methods for serialize and deserialize a user object, middleware to authenticate user by validating email and password using local-strategy and funally a isValidate method to know the state of user. 
@@ -115,6 +116,7 @@ exports.isAuthenticated = function(req, res, next) {
 } 
 ```
 
+
 ## routes/user.js
 We again move to our route folder and create new route for login. 
 
@@ -132,7 +134,9 @@ router.post('/login',passport.authenticate('local-login',{
   failureFlash:true
 }));
 ```
-Api for profiel is craeted which is authenticated by isAuthenticated function.
+![screenshot from 2017-11-26 22-01-37](https://user-images.githubusercontent.com/33262773/33242103-97ad2f70-d2f5-11e7-8d4f-81e1fc1cc3b1.jpg)
+
+Api for profile is craeted which is authenticated by isAuthenticated function. If user is not logged in,it will not be proceeded to profile page.
 ```node.js
 router.get('/profile',passportConf.isAuthenticated, function(req,res,next){
   User.findOne({_id:req.user._id},function(err,user){
@@ -141,6 +145,8 @@ router.get('/profile',passportConf.isAuthenticated, function(req,res,next){
   });
 });
 ```
+![screenshot from 2017-11-26 22-06-25](https://user-images.githubusercontent.com/33262773/33242138-1dbdba44-d2f6-11e7-9bb4-1f3dded91a7e.png)
+
 
 Finally api for logout is created to log-out a logged-in user.
 ```node.js
@@ -148,7 +154,8 @@ router.get('/logout',function(req,res,next){
   req.logout();
   res.send('User logged-out');
 });
-,,,
+```
+![screenshot from 2017-11-26 22-06-03](https://user-images.githubusercontent.com/33262773/33242157-636b75ea-d2f6-11e7-8bd9-27542433210f.png)
 
 ## models/event.js
 Since we are to add events in our web app, so we craete schema for event.
@@ -189,6 +196,7 @@ router.post('/add-event',passport.isAuthenticated,function(req,res,next){
    
 })
 ```
+
 ```node.js
 router.delete('/delete-event/:id',passport.isAuthenticated, function(req,res,next){
     
@@ -253,6 +261,7 @@ router.put('/update-event/:id',function(req,res,next){
 
 module.exports = router;
 ```
+![screenshot from 2017-11-26 22-22-53](https://user-images.githubusercontent.com/33262773/33242292-6b1c0460-d2f8-11e7-8827-aa90382517b4.png)
 
 ## routes/event.js
 Api to see all the events is generated.
@@ -267,7 +276,9 @@ router.get('/event_list',passport.isAuthenticated,function(req,res){
 	});
 });
 ```
-Next API is to show individual event with is details.
+![screenshot from 2017-11-26 22-26-13](https://user-images.githubusercontent.com/33262773/33242316-e2322bce-d2f8-11e7-889b-24b2b1bf2b94.png)
+
+Next API is to show individual event with its details.
 ```node.js
 router.get('/event/:id',passport.isAuthenticated, function(req,res,next){
 	Event.findById({ _id:req.params.id},function(err,event){
@@ -276,6 +287,7 @@ router.get('/event/:id',passport.isAuthenticated, function(req,res,next){
 	});
 });
 ```
+![screenshot from 2017-11-26 22-28-36](https://user-images.githubusercontent.com/33262773/33242336-2f575b22-d2f9-11e7-97f8-8e87e7705e60.png)
 
 Final look of our event.js with its imported libraries is:
 ```node.js
@@ -349,3 +361,4 @@ router.post('/comment_event/:id',passport.isAuthenticated, function(req,res,next
 
 module.exports = router;
 ```
+![screenshot from 2017-11-26 22-31-39](https://user-images.githubusercontent.com/33262773/33242354-996f9100-d2f9-11e7-88b2-013d4425a65a.png)
