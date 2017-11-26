@@ -362,3 +362,31 @@ router.post('/comment_event/:id',passport.isAuthenticated, function(req,res,next
 module.exports = router;
 ```
 ![screenshot from 2017-11-26 22-31-39](https://user-images.githubusercontent.com/33262773/33242354-996f9100-d2f9-11e7-88b2-013d4425a65a.png)
+
+Further a filtered event search is made. Api for filterd search is as:-
+```node.js
+router.get('/filtered/:title/:organiser',passport.isAuthenticated,function(req,res,next){
+    Event.find({$and:[{title:req.params.title},{organiser:req.params.organiser}]},function(err,result){
+        if(err) res.json(err);
+        else res.json(result);
+    })
+})
+
+```
+![screenshot from 2017-11-26 23-07-30](https://user-images.githubusercontent.com/33262773/33242665-9f63a2ae-d2fe-11e7-9e17-cacaebada170.png)
+
+Now we make a filtered query by count on our events by using limit and skip.
+```node.js
+router.get('/paginated/:skip/:limit',passport.isAuthenticated,function(req,res,next){
+    var eventList = [];
+    Event
+	.find().skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit))
+	.populate()
+	.exec(function(err,events){
+        if(err) return next(err);
+        res.json(events)
+	});
+})
+
+```
+![screenshot from 2017-11-26 23-30-53](https://user-images.githubusercontent.com/33262773/33242939-557ab20a-d302-11e7-8d91-712ab6ddb259.jpg)
