@@ -28,5 +28,17 @@ router.get('/filtered/:title/:organiser',passport.isAuthenticated,function(req,r
     })
 })
 
+router.get('/paginated/:skip/:limit',passport.isAuthenticated,function(req,res,next){
+    var eventList = [];
+    Event
+	.find().skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit))
+	.populate()
+	.exec(function(err,events){
+        if(err) return next(err);
+        res.json(events)
+	});
+})
+
+
 
 module.exports = router;
