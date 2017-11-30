@@ -16,7 +16,7 @@ router.post('/login',passport.authenticate('local-login',{
 }));
 
 router.get('/',function(req,res,next){
-  res.home('Home Page');
+  res.send('Home Page');
 });
 
 router.get('/profile',passportConf.isAuthenticated, function(req,res,next){
